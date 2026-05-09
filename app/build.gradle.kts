@@ -54,6 +54,15 @@ android {
         resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" }
     }
 
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+        htmlReport = true
+        xmlReport = true
+        textReport = true
+        absolutePaths = false
+    }
+
     splits {
         abi {
             isEnable     = true
