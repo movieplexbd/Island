@@ -61,7 +61,7 @@ fun FloatingWaveform(
             animationSpec = if (isActive) {
                 infiniteRepeatable(tween(dur, easing = EaseInOutSine), RepeatMode.Reverse)
             } else {
-                snap()
+                infiniteRepeatable(snap())
             },
             label = "bar-$i"
         ).value
