@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Dynamic Island</string>
+    <string name="app_name_v3">Dynamic Island V3</string>
+    <string name="notification_channel_name">Dynamic Island Service</string>
+    <string name="notification_text">Dynamic Island is running</string>
+    <string name="perm_overlay">Display over other apps</string>
+    <string name="perm_notification">Notification access</string>
+    <string name="perm_phone">Phone state (optional)</string>
+    <string name="start_service">Start Island</string>
+    <string name="stop_service">Stop Island</string>
+    <string name="version">v3.0</string>
+</resources>
