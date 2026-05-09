@@ -9,4 +9,5 @@
     <string name="start_service">Start Island</string>
     <string name="stop_service">Stop Island</string>
     <string name="version">v3.0</string>
+    <string name="service_description">Dynamic Island reads notifications to show them in the island overlay.</string>
 </resources>
