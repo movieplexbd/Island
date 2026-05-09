@@ -27,7 +27,7 @@ import kotlin.random.Random
 
 // ── Particle model ────────────────────────────────────────────────────────────
 
-private data class Particle(
+internal data class Particle(
     var x: Float,
     var y: Float,
     var vx: Float,

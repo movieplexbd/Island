@@ -174,8 +174,8 @@ class BatteryHealthMonitor(private val context: Context) {
         val isCharging  = status == BatteryManager.BATTERY_STATUS_CHARGING
         val healthPct   = when (health) {
             BatteryManager.BATTERY_HEALTH_GOOD    -> 95
-            BatteryManager.BATTERY_HEALTH_FAIR    -> 70
-            BatteryManager.BATTERY_HEALTH_POOR    -> 40
+            BatteryManager.BATTERY_HEALTH_DEAD    -> 40
+            BatteryManager.BATTERY_HEALTH_OVERHEAT -> 60
             else                                  -> 100
         }
 

@@ -31,7 +31,7 @@ fun CallIsland(
     expansion: IslandExpansion
 ) {
     when (expansion) {
-        IslandExpansion.COMPACT, IslandExpansion.COLLAPSED -> CompactCall(state)
+        IslandExpansion.COMPACT, IslandExpansion.COLLAPSED, IslandExpansion.SPLIT -> CompactCall(state)
         IslandExpansion.EXPANDED -> ExpandedCall(state)
     }
 }

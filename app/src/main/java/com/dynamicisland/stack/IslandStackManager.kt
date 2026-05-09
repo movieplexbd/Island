@@ -225,4 +225,20 @@ object StackItemFactory {
         accentColor  = 0xFFFF9500,
         label        = "${state.percentage}%"
     )
+
+    fun from(state: IslandState): StackItem = when (state) {
+        is IslandState.PhoneCall    -> call(state)
+        is IslandState.NowPlaying   -> media(state)
+        is IslandState.Notification -> notification(state, state.packageName + System.currentTimeMillis())
+        is IslandState.Charging     -> charging(state)
+        else -> StackItem(
+            id           = "generic:${state::class.simpleName}",
+            type         = StackItemType.CUSTOM,
+            state        = state,
+            priority     = 20,
+            neverExpires = false,
+            accentColor  = 0xFF8E8E93,
+            label        = state::class.simpleName ?: "Island"
+        )
+    }
 }

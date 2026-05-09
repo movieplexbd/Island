@@ -228,11 +228,11 @@ private fun ChargingBolt(animated: Boolean, size: androidx.compose.ui.unit.Dp = 
         initialValue = 0.6f, targetValue = 1.0f,
         animationSpec = if (animated) {
             infiniteRepeatable(tween(600, easing = EaseInOutSine), RepeatMode.Reverse)
-        } else snap(),
+        } else infiniteRepeatable(snap()),
         label = "bolt-alpha"
     )
     Icon(
-        imageVector = Icons.Rounded.BoltRounded,
+        imageVector = Icons.Rounded.Bolt,
         contentDescription = null,
         tint = IslandAccentOrange.copy(alpha = alpha),
         modifier = Modifier.size(size)

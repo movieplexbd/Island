@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
-import com.dynamicisland.animation.LiquidMorphAnimator
-import com.dynamicisland.animation.glassmorphism
 import com.dynamicisland.animation.motionBlurTrail
 import com.dynamicisland.customization.AnimationSettings
 import com.dynamicisland.customization.IslandShape
@@ -141,8 +139,8 @@ fun DynamicIslandOverlayV3(
                     clip                = true
                     this.shape          = composeShape
                     shadowElevation     = 32f
-                    ambientShadowColor  = android.graphics.Color.BLACK
-                    spotShadowColor     = android.graphics.Color.BLACK
+                    ambientShadowColor  = Color.Black
+                    spotShadowColor     = Color.Black
                 }
                 // V3: gradient glassmorphism
                 .then(

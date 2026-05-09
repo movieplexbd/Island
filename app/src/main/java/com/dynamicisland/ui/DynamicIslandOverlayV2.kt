@@ -13,8 +13,6 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.dynamicisland.animation.LiquidMorphAnimator
-import com.dynamicisland.animation.glassmorphism
 import com.dynamicisland.animation.motionBlurTrail
 import com.dynamicisland.customization.AnimationSettings
 import com.dynamicisland.customization.IslandShape
@@ -148,8 +146,8 @@ fun DynamicIslandOverlayV2(
                     clip     = true
                     this.shape = composeShape
                     shadowElevation = 32f
-                    ambientShadowColor = android.graphics.Color.BLACK
-                    spotShadowColor    = android.graphics.Color.BLACK
+                    ambientShadowColor = Color.Black
+                    spotShadowColor    = Color.Black
                 }
                 // Glass background
                 .glassmorphism(
@@ -269,6 +267,7 @@ private fun IslandContentV2(
         is IslandState.Navigation  -> NavigationIsland(state, expansion)
         is IslandState.Timer       -> TimerIsland(state, expansion)
         is IslandState.LiveActivity -> LiveActivityIsland(state, expansion)
+        else -> {}
     }
 }
 

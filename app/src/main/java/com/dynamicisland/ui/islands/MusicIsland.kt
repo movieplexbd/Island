@@ -39,7 +39,8 @@ fun MusicIsland(
 ) {
     when (expansion) {
         IslandExpansion.COLLAPSED,
-        IslandExpansion.COMPACT  -> CompactMusic(state, onPlayPause)
+        IslandExpansion.COMPACT,
+        IslandExpansion.SPLIT    -> CompactMusic(state, onPlayPause)
         IslandExpansion.EXPANDED -> ExpandedMusic(state, onPlayPause, onNext, onPrevious)
     }
 }
@@ -256,7 +257,7 @@ fun MusicWaveform(isPlaying: Boolean) {
                         repeatMode = RepeatMode.Reverse
                     )
                 } else {
-                    snap()
+                    infiniteRepeatable(snap())
                 },
                 label = "bar-height-$index"
             )

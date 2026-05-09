@@ -88,7 +88,7 @@ class SensorEngine(private val context: Context) {
             ?: run { close(); return@callbackFlow }
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
-                if (event.accuracy >= SensorManager.SENSOR_STATUS_LOW_ACCURACY) {
+                if (event.accuracy >= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
                     trySend(event.values[0].toInt())
                 }
             }

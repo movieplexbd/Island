@@ -275,6 +275,7 @@ class IslandViewModelV2(private val context: Context) : ViewModel() {
                 }
             }
             is IslandEvent.Dismiss -> dismiss()
+            else -> {}
         }
     }
 
@@ -285,6 +286,7 @@ class IslandViewModelV2(private val context: Context) : ViewModel() {
                     IslandExpansion.COLLAPSED -> IslandExpansion.COMPACT
                     IslandExpansion.COMPACT   -> IslandExpansion.EXPANDED
                     IslandExpansion.EXPANDED  -> IslandExpansion.COMPACT
+                    IslandExpansion.SPLIT     -> IslandExpansion.COMPACT
                 }
                 autoDismissJob?.cancel()
             }
