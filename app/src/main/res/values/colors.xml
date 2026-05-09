@@ -5,4 +5,6 @@
     <color name="accent_purple">#FFB347FF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="ic_launcher_background">#FF050510</color>
+    <color name="ic_launcher_foreground">#FF007AFF</color>
 </resources>
