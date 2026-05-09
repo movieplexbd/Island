@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
-import androidx.compose.material3.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
@@ -127,9 +126,15 @@ fun MainScreenV3(
                 containerColor   = Color.Transparent,
                 contentColor     = Color.White,
                 indicator        = { tabPositions ->
-                    TabRowDefaults.SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[activeTab]),
-                        color = Color(0xFF007AFF)
+                    val pos = tabPositions[activeTab]
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(androidx.compose.ui.Alignment.BottomStart)
+                            .offset(x = pos.left)
+                            .width(pos.width)
+                            .height(2.dp)
+                            .background(Color(0xFF007AFF))
                     )
                 }
             ) {
