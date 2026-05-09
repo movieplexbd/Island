@@ -28,10 +28,10 @@ import com.dynamicisland.stack.stackExtraHeight
 import com.dynamicisland.theme.IslandTheme
 import com.dynamicisland.ui.islands.*
 import com.dynamicisland.widgets.MiniControlCenter
-import com.dynamicisland.widgets.ParticleCanvas
-import com.dynamicisland.widgets.ParticleEmitter
-import com.dynamicisland.widgets.ParticleFactory
-import com.dynamicisland.widgets.QuickReplyPopup
+import com.dynamicisland.notification.QuickReplyPopup
+import com.dynamicisland.rendering.ParticleCanvas
+import com.dynamicisland.rendering.ParticleEmitter
+import com.dynamicisland.rendering.ParticleFactory
 import com.dynamicisland.gesture.IslandGestureEngine
 import com.dynamicisland.gesture.islandGestures
 

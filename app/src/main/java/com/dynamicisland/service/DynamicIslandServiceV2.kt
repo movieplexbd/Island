@@ -93,6 +93,7 @@ class DynamicIslandServiceV2 : Service(),
         instance  = this
         viewModel = IslandViewModelV2(applicationContext)
 
+        stateRegCtrl.performAttach()
         stateRegCtrl.performRestore(null)
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_START)

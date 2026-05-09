@@ -26,6 +26,7 @@ import com.dynamicisland.stack.StackedIslandView
 import com.dynamicisland.stack.stackExtraHeight
 import com.dynamicisland.theme.IslandTheme
 import com.dynamicisland.ui.islands.*
+import com.dynamicisland.notification.QuickReplyPopup
 import com.dynamicisland.widgets.*
 
 /**

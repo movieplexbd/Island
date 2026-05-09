@@ -25,7 +25,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
             TelephonyManager.EXTRA_STATE_RINGING -> {
                 lastState = TelephonyManager.CALL_STATE_RINGING
                 val callerName = lookupContactName(context, number) ?: number
-                DynamicIslandService.sendEvent(
+                DynamicIslandServiceV3.sendEvent(
                     IslandEvent.ShowCall(
                         name       = callerName,
                         number     = number,
@@ -39,7 +39,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
                     // Answered incoming call
                     val callerName = lookupContactName(context, number) ?: number
-                    DynamicIslandService.sendEvent(
+                    DynamicIslandServiceV3.sendEvent(
                         IslandEvent.ShowCall(
                             name       = callerName,
                             number     = number,
@@ -56,7 +56,7 @@ class PhoneStateReceiver : BroadcastReceiver() {
                 else 0L
                 callStartTime = 0
                 lastState = TelephonyManager.CALL_STATE_IDLE
-                DynamicIslandService.sendEvent(IslandEvent.CallEnded(duration))
+                DynamicIslandServiceV3.sendEvent(IslandEvent.CallEnded(duration))
             }
         }
     }

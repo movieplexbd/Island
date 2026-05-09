@@ -65,7 +65,7 @@ class IslandMediaSessionManager(private val context: Context) {
             if (controllers.isEmpty()) {
                 if (currentController != null) {
                     currentController = null
-                    DynamicIslandService.sendEvent(IslandEvent.MediaStopped)
+                    DynamicIslandServiceV3.sendEvent(IslandEvent.MediaStopped)
                 }
                 return
             }
@@ -109,7 +109,7 @@ class IslandMediaSessionManager(private val context: Context) {
         val albumArt: Bitmap? = metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata.getBitmap(MediaMetadata.METADATA_KEY_ART)
 
-        DynamicIslandService.sendEvent(
+        DynamicIslandServiceV3.sendEvent(
             IslandEvent.MediaUpdate(
                 title     = title,
                 artist    = artist,
@@ -123,7 +123,7 @@ class IslandMediaSessionManager(private val context: Context) {
             // Give user a moment to see "paused" before dismissing
             scope.launch {
                 delay(3000)
-                DynamicIslandService.sendEvent(IslandEvent.MediaStopped)
+                DynamicIslandServiceV3.sendEvent(IslandEvent.MediaStopped)
             }
         }
     }

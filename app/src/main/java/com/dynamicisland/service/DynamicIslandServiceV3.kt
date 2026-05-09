@@ -12,7 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.savedstate.*
 import com.dynamicisland.MainActivity
+import com.dynamicisland.layout.DeviceFormFactor
 import com.dynamicisland.layout.buildOverlayParams
+import com.dynamicisland.layout.layoutSpecFor
 import com.dynamicisland.model.IslandEvent
 import com.dynamicisland.ui.DynamicIslandOverlayV3
 import com.dynamicisland.viewmodel.IslandViewModelV3
@@ -67,6 +69,7 @@ class DynamicIslandServiceV3 : Service(),
         super.onCreate()
         instance = this
         stateRegCtrl.performAttach()
+        stateRegCtrl.performRestore(null)
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         viewModel      = IslandViewModelV3(applicationContext)
         windowManager  = getSystemService(WINDOW_SERVICE) as WindowManager
@@ -92,7 +95,7 @@ class DynamicIslandServiceV3 : Service(),
     }
 
     private fun createOverlay() {
-        val params = buildOverlayParams()
+        val params = buildOverlayParams(this, layoutSpecFor(DeviceFormFactor.PHONE_PORTRAIT))
         val composeView = ComposeView(this).apply {
             setViewTreeLifecycleOwner(this@DynamicIslandServiceV3)
             setViewTreeViewModelStoreOwner(this@DynamicIslandServiceV3)

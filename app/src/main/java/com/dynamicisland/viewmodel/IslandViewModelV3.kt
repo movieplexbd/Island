@@ -8,7 +8,7 @@ import com.dynamicisland.ai.ScoredEvent
 import com.dynamicisland.customization.AnimationSettings
 import com.dynamicisland.customization.DefaultAnimationSettings
 import com.dynamicisland.customization.IslandShape
-import com.dynamicisland.gesture.GestureIntent
+import com.dynamicisland.gesture.IslandGesture
 import com.dynamicisland.gesture.IslandGestureEngine
 import com.dynamicisland.model.*
 import com.dynamicisland.offline.OfflineCacheManager
@@ -343,7 +343,7 @@ class IslandViewModelV3(private val context: Context) : ViewModel() {
     }
 
     fun toggleHaptics(enabled: Boolean) {
-        _animSettings.value = _animSettings.value.copy(hapticsEnabled = enabled)
+        _animSettings.value = _animSettings.value.copy(hapticEnabled = enabled)
         viewModelScope.launch { offlineCache.saveHapticsEnabled(enabled) }
     }
 
@@ -397,7 +397,7 @@ class IslandViewModelV3(private val context: Context) : ViewModel() {
     fun dismissControlCenter() { _showControlCenter.value = false }
     fun sendQuickReply(text: String) { _showQuickReply.value = false }
     fun dismissQuickReply()         { _showQuickReply.value = false }
-    fun onDotTap(id: String)        { stackManager.setActive(id) }
+    fun onDotTap(id: String)        { stackManager.focusItem(id) }
     fun toggleDevMode()             { _devModeEnabled.value = !_devModeEnabled.value }
 
     // ── Internal ──────────────────────────────────────────────────────────────
@@ -462,13 +462,13 @@ class IslandViewModelV3(private val context: Context) : ViewModel() {
 
     private fun observeGestures() {
         viewModelScope.launch {
-            gestureEngine.gestures.collect { intent ->
-                when (intent) {
-                    is GestureIntent.Tap       -> onTap()
-                    is GestureIntent.LongPress -> onLongPress()
-                    is GestureIntent.SwipeUp   -> onSwipeUp()
-                    is GestureIntent.SwipeDown -> onSwipeDown()
-                    else -> {}
+            gestureEngine.events.collect { gesture ->
+                when (gesture) {
+                    is IslandGesture.Tap       -> onTap()
+                    is IslandGesture.LongPress -> onLongPress()
+                    is IslandGesture.SwipeUp   -> onSwipeUp()
+                    is IslandGesture.SwipeDown -> onSwipeDown()
+                    else                       -> {}
                 }
             }
         }

@@ -19,17 +19,24 @@ class IslandNotificationListener : NotificationListenerService() {
     )
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
-        val pkg  = sbn.packageName ?: return
+        val pkg = sbn.packageName ?: return
         if (pkg == packageName) return
-        if (!filter.shouldShow(sbn)) return
 
-        val extras    = sbn.notification.extras
-        val title     = extras.getString("android.title") ?: return
-        val text      = extras.getCharSequence("android.text")?.toString() ?: ""
-        val appName   = runCatching {
+        val extras  = sbn.notification.extras
+        val title   = extras.getString("android.title") ?: return
+        val text    = extras.getCharSequence("android.text")?.toString() ?: ""
+        val appName = runCatching {
             packageManager.getApplicationLabel(
                 packageManager.getApplicationInfo(pkg, 0)).toString()
         }.getOrDefault(pkg)
+
+        val actions   = sbn.notification.actions ?: emptyArray()
+        val replyable = actions.any { action ->
+            action.remoteInputs?.isNotEmpty() == true
+        }
+
+        val event = IslandEvent.NotificationReceived(appName, title, text, pkg, replyable)
+        if (filter.evaluate(event) == SmartNotificationFilter.Result.SUPPRESS) return
 
         // Detect alarm packages → send alarm event
         if (pkg in ALARM_PACKAGES) {
@@ -39,16 +46,7 @@ class IslandNotificationListener : NotificationListenerService() {
             return
         }
 
-        // Detect replyable notifications
-        val actions   = sbn.notification.actions ?: emptyArray()
-        val replyable = actions.any { action ->
-            action.remoteInputs?.isNotEmpty() == true
-        }
-
-        DynamicIslandServiceV3.sendEvent(
-            IslandEvent.NotificationReceived(appName, title, text, pkg, replyable),
-            pkg
-        )
+        DynamicIslandServiceV3.sendEvent(event, pkg)
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) { /* no-op */ }

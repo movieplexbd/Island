@@ -1,0 +1,80 @@
+name: Build & Release Signed APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/island-release.jks
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build signed release APK
+        env:
+          KEYSTORE_PATH: island-release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Rename APK
+        run: |
+          mv app/build/outputs/apk/release/app-release.apk \
+             app/build/outputs/apk/release/DynamicIsland-v3-signed.apk || \
+          mv app/build/outputs/apk/release/app-universal-release.apk \
+             app/build/outputs/apk/release/DynamicIsland-v3-signed.apk || true
+
+      - name: Upload signed APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DynamicIsland-v3-signed
+          path: app/build/outputs/apk/release/DynamicIsland-v3-signed.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v3.0-bugfix
+          name: "Dynamic Island v3.0 – Bug Fixed"
+          body: |
+            ## Dynamic Island v3.0 – All Bugs Fixed
+
+            **Fixes applied:**
+            - Fixed `buildOverlayParams()` missing arguments in ServiceV3
+            - Fixed `DynamicIslandService` → `DynamicIslandServiceV3` in media/phone receivers
+            - Fixed `filter.shouldShow()` → `filter.evaluate()` in NotificationListener
+            - Added missing ThemeEngine methods: `setTheme(IslandTheme)`, `setThemeById()`, `suggestThemeForPackage()`, `cleanup()`, `setAdaptiveAlpha()`
+            - Added `gradientColors` property to `IslandTheme` + `ThemeCatalog.byId()`
+            - Fixed `gestureEngine.gestures` → `gestureEngine.events` + correct `IslandGesture` type matching
+            - Fixed `hapticsEnabled` typo → `hapticEnabled` in AnimationSettings
+            - Fixed `stackManager.setActive()` → `stackManager.focusItem()`
+            - Fixed wrong package imports for `ParticleCanvas`, `ParticleEmitter`, `ParticleFactory`, `QuickReplyPopup`
+            - Added `performRestore(null)` after `performAttach()` in both service V2 and V3
+            - Created missing `IslandColors.kt` UI constants file
+
+            **Signed with release keystore. Install with:**
+            ```
+            adb install DynamicIsland-v3-signed.apk
+            ```
+          files: app/build/outputs/apk/release/DynamicIsland-v3-signed.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

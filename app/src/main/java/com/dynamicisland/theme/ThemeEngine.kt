@@ -28,7 +28,8 @@ data class IslandTheme(
     val glowColor: Color,
     val glassTint: Color,
     val textColor: Color = Color.White,
-    val isLightBackground: Boolean = false
+    val isLightBackground: Boolean = false,
+    val gradientColors: List<Color> = emptyList()
 )
 
 // Built-in theme catalog
@@ -79,6 +80,8 @@ object ThemeCatalog {
     )
 
     val all = listOf(OBSIDIAN, AURORA, SAKURA, SOLAR, GHOST, NEON)
+
+    fun byId(id: String): IslandTheme = all.firstOrNull { it.id == id } ?: OBSIDIAN
 }
 
 // ── Theme engine ──────────────────────────────────────────────────────────────
@@ -107,6 +110,33 @@ class ThemeEngine(private val context: Context) {
         _activeTheme.value = ThemeCatalog.all.firstOrNull { it.id == themeId }
             ?: ThemeCatalog.OBSIDIAN
     }
+
+    fun setTheme(theme: IslandTheme) {
+        _activeTheme.value = theme
+    }
+
+    fun setThemeById(themeId: String) {
+        _activeTheme.value = ThemeCatalog.all.firstOrNull { it.id == themeId }
+            ?: ThemeCatalog.OBSIDIAN
+    }
+
+    fun suggestThemeForPackage(packageName: String): IslandTheme? {
+        val overrideId = perAppOverrides[packageName]
+        return if (overrideId != null)
+            ThemeCatalog.all.firstOrNull { it.id == overrideId }
+        else null
+    }
+
+    fun setAdaptiveAlpha(lux: Float) {
+        _adaptiveAlpha.value = when {
+            lux > 10000f -> 0.15f
+            lux > 1000f  -> 0.10f
+            lux > 100f   -> 0.05f
+            else         -> 0.0f
+        }
+    }
+
+    fun cleanup() { scope.cancel() }
 
     fun setPerAppTheme(packageName: String, themeId: String) {
         perAppOverrides[packageName] = themeId
