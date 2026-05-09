@@ -239,6 +239,7 @@ private fun PresetChip(label: String, onClick: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LabeledSlider(
     label: String,
